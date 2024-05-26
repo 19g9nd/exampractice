@@ -1,0 +1,34 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/CreateUser",
+      "UpstreamHttpMethod": ["Post"],
+
+      "DownstreamPathTemplate": "/User/AddUser",
+      "DownstreamScheme": "http",
+
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5111"
+        }
+      ]
+    },
+    {
+        "UpstreamPathTemplate": "/GetUser",
+        "UpstreamHttpMethod": [
+          "Get"
+        ],
+  
+        "DownstreamPathTemplate": "/User/GetUser",
+        "DownstreamScheme": "http",
+  
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": "5111"
+          }
+        ]
+      }
+  ]
+}
