@@ -29,6 +29,35 @@
             "Port": "5111"
           }
         ]
-      }
+      }, {
+        "UpstreamPathTemplate": "/CreateCar",
+        "UpstreamHttpMethod": ["Post"],
+  
+        "DownstreamPathTemplate": "/api/Car/AddCar",
+        "DownstreamScheme": "http",
+  
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": "5109"
+          }
+        ]
+      },
+      {
+          "UpstreamPathTemplate": "/GetCar",
+          "UpstreamHttpMethod": [
+            "Get"
+          ],
+    
+          "DownstreamPathTemplate": "/api/Car/GetCar",
+          "DownstreamScheme": "http",
+    
+          "DownstreamHostAndPorts": [
+            {
+              "Host": "localhost",
+              "Port": "5109"
+            }
+          ]
+        }
   ]
 }
