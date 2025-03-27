@@ -1,0 +1,33 @@
+﻿@page "/"
+@using FrontApp.Models
+@inject HttpClient HttpClient
+
+<PageTitle>Home</PageTitle>
+
+@if (user != null)
+{
+        <p>@user.Id</p>
+        <p>@user.Name</p>
+}
+else
+{
+    <p>No such user found...</p>
+}
+
+@code {
+    private User user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await HttpClient.GetAsync("http://localhost:5148/GetUser?id=1");
+            response.EnsureSuccessStatusCode();
+            user = await response.Content.ReadFromJsonAsync<User>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
