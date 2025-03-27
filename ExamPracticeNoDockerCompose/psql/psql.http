@@ -1,0 +1,6 @@
+@psql_HostAddress = http://localhost:5112
+
+GET {{psql_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
