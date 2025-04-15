@@ -1,0 +1,88 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/Owner/Get",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "api2",
+                    "Port": 81
+                }
+            ],
+            "UpstreamPathTemplate": "/getOwners",
+            "UpstreamHttpMethod": [
+                "Get"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/Owner/Post",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "api2",
+                    "Port": 81
+                }
+            ],
+            "UpstreamPathTemplate": "/AddOwner",
+            "UpstreamHttpMethod": [
+                "Post"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/Owner/GetById/{ownerId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "api2",
+                    "Port": 81
+                }
+            ],
+            "UpstreamPathTemplate": "/GetOwner/{ownerId}",
+            "UpstreamHttpMethod": [
+                "Get"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/Pet/GetByOwnerId/{ownerId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "api1",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/GetPet/{ownerId}",
+            "UpstreamHttpMethod": [
+                "Get"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/Pet/GetAll",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "api1",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/GetPets",
+            "UpstreamHttpMethod": [
+                "Get"
+            ]
+        },
+        {
+            "DownstreamPathTemplate": "/Pet/Add",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "api1",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/AddPet",
+            "UpstreamHttpMethod": [
+                "Post"
+            ]
+        }
+    ]
+}

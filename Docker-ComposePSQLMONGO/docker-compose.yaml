@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  api1:
+    build:
+      context: ./api1/
+      dockerfile: Dockerfile
+    container_name: api1
+    ports:
+      - "5000:80"
+    networks:
+      - mynetwork
+    environment:
+      ASPNETCORE_URLS: http://+:80
+    restart: always
+    depends_on:
+      - mongodb
+
+  api2:
+    build:
+      context: ./api2/
+      dockerfile: Dockerfile
+    container_name: api2
+    ports:
+      - "5001:81"
+    networks:
+      - mynetwork
+    environment:
+      ASPNETCORE_URLS: http://+:81
+    restart: always
+    depends_on:
+      - postgredb
+      - api1
+
+  mongodb:
+    image: mongo:latest
+    container_name: mymongo
+    ports:
+      - "27018:27017" 
+    networks:
+      - mynetwork
+    volumes:
+      - mymongodb_data:/var/lib/mongodb/data
+    restart: always
+
+  postgredb:
+    image: postgres:latest
+    container_name: mypostgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Pass1234!
+      POSTGRES_DB: ownersDb
+    volumes:
+      - mypostgresdb_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - mynetwork
+    restart: always
+
+  gateway:
+    build:
+      context: ./gateway/
+      dockerfile: Dockerfile
+    container_name: apigateway
+    ports:
+      - "8080:82"
+    networks:
+      - mynetwork
+    environment:
+      ASPNETCORE_URLS: http://+:82
+    depends_on:
+      - api1
+      - api2
+    restart: always
+
+  front:
+    build:
+      context: ./front/
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:83"
+    networks:
+      - mynetwork
+    environment:
+      ASPNETCORE_URLS: http://+:83
+    depends_on:
+      - gateway
+    restart: always
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  mypostgresdb_data:
+  mymongodb_data:
