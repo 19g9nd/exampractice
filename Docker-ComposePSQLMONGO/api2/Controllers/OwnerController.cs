@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,19 @@ namespace api2.Controllers
         public IActionResult Get()
         {
             var db = new Npgsql.NpgsqlConnection(
-                "Host=mypostgres;Port=5432;User ID=admin;Password=Pass1234!;Database=ownersDb"
+            "Host=mypostgres;Port=5432;User ID=admin;Password=Pass1234!;Database=ownersDb"
             );
+            var cacheconnection = StackExchange.Redis.ConnectionMultiplexer.Connect("cache");
+            var cache = cacheconnection.GetDatabase();
+            var cacheKey = "owners_all";
+            var cachedData = cache.StringGet(cacheKey);
+            if (!cachedData.IsNullOrEmpty)
+            {
+            return Ok(JsonSerializer.Deserialize<List<Owner>>(cachedData));
+            }
             var data = db.Query<Owner>("SELECT * FROM owners").ToList();
+            var serialized = JsonSerializer.Serialize(data);
+            cache.StringSet(cacheKey, serialized, TimeSpan.FromMinutes(10));
             return base.Ok(data);
         }
 

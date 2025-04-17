@@ -31,7 +31,16 @@ services:
     depends_on:
       - postgredb
       - api1
-
+  cache:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - cache:/data
+    container_name: cache
+    networks:
+      - mynetwork
   mongodb:
     image: mongo:latest
     container_name: mymongo
@@ -96,3 +105,4 @@ networks:
 volumes:
   mypostgresdb_data:
   mymongodb_data:
+  cache:
