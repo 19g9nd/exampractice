@@ -16,6 +16,21 @@ services:
       - rabbit
     restart: always
 
+  background:
+    build:
+      context: ./BackgroundConsumer/
+      dockerfile: dockerfile
+    container_name: background
+    ports:
+      - "2002:82"
+    networks:
+      - mybridge
+    environment:
+      - ASPNETCORE_URLS=http://+:82
+    depends_on:
+      - rabbit
+    restart: always
+
   producer:
     build:
       context: ./Producer/
@@ -48,7 +63,7 @@ services:
 
 networks:
   mybridge: 
-   driver: bridge
+    driver: bridge
 
 volumes:
   rabbit:
